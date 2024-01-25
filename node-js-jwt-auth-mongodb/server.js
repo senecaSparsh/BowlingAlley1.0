@@ -96,24 +96,27 @@ app.get("/", (req, res) => {
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
 
-app.post("/api/auth/update", upload.single("profilePicture"), (req, res) => {
-  // handle the file upload logic here
-  // you can access the file details with req.file
-  // and other form data with req.body
+/*app.put("/api/auth/update", upload.single("profilePicture"), (req, res) => {
+  console.log("Received update request:", req.body);
+  if (!req.user || !req.user.id) {
+    return res.status(403).json({ message: "User not authenticated" });
+  }
   User.findByIdAndUpdate(req.user.id, {
     $set: {
-      name: req.body.name,
+      fullName: req.body.fullName,
       email: req.body.email,
-      profilePicture: req.file.filename,
+      profilePicture: req.file ? req.file.filename : undefined,
     },
   })
     .then(() => {
+      console.log("User updated successfully");
       res.status(200).json({ message: "User updated successfully" });
     })
     .catch((err) => {
+      console.error("Failed to update user:", err);
       res.status(500).json({ message: "Failed to update user" });
     });
-});
+});*/
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

@@ -1,3 +1,5 @@
+const User = require("../models/user.model");
+
 exports.allAccess = (req, res) => {
   res.status(200).send("Public Content.");
 };
@@ -12,4 +14,41 @@ exports.adminBoard = (req, res) => {
 
 exports.moderatorBoard = (req, res) => {
   res.status(200).send("Moderator Content.");
+};
+
+exports.updateProfile = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const fullName = req.body.fullName;
+    const email = req.body.email;
+
+    // Find the user by ID
+    const existingUser = await User.findById(userId);
+
+    if (!existingUser) {
+      console.log("User not found.");
+      return res.status(404).json({ error: "User not found." });
+    }
+    console.log(fullName);
+
+    // Update the user properties
+    existingUser.fullName = fullName;
+
+    // Check if email is provided before updating
+    if (email) {
+      existingUser.email = email;
+    }
+    console.log(existingUser.email);
+    console.log(existingUser.fullName);
+
+    // Save the changes to the database
+    const updatedUser = await existingUser.save();
+
+    console.log("Updated existingUser:", updatedUser);
+    console.log("User updated successfully");
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error("Error updating user profile:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 };

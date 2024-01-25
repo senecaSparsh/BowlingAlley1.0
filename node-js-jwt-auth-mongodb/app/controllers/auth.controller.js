@@ -76,24 +76,3 @@ exports.signin = async (req, res) => {
     res.status(500).send({ message: error.message });
   }
 };
-
-exports.updateProfile = async (req, res) => {
-  try {
-    const userId = req.userId; // Assuming the user ID is stored in the request during authentication
-    const { fullName, email } = req.body;
-
-    // Perform the necessary updates in your database
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      { fullName, email },
-      { new: true }
-    );
-
-    res.status(200).json(updatedUser);
-  } catch (error) {
-    console.error("Error updating user profile:", error);
-    res
-      .status(500)
-      .json({ error: "An error occurred while updating user profile." });
-  }
-};
