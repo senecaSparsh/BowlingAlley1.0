@@ -5,6 +5,10 @@ import random
 # Define the base URL of your application
 base_url = 'http://localhost:8080'  # Update with your actual base URL
 
+# Sample number of players
+num_players = 4  # Update with the desired number of players
+bowling_alley_number = 1  
+
 # Function to add a frame to a specific bowling alley within a game
 def add_frame_to_bowling_alley(bowling_alley_number, alley_index, frame_data):
     url = f"{base_url}/add-frame-to-bowling-alley/{bowling_alley_number}/{alley_index}"
@@ -13,19 +17,6 @@ def add_frame_to_bowling_alley(bowling_alley_number, alley_index, frame_data):
         print(response.json())
     except requests.exceptions.RequestException as e:
         print('Error:', e)
-
-# Function to send frame data to the frontend route
-def send_frame_data_to_frontend(frame_data):
-    frontend_url = 'http://localhost:8081'  # Update with your frontend route URL
-    try:
-        response = requests.post(frontend_url, json=frame_data)
-        print("Frame data sent to frontend:", response.text)
-    except requests.exceptions.RequestException as e:
-        print('Error:', e)
-
-# Sample number of players
-num_players = 4  # Update with the desired number of players
-bowling_alley_number = 1  
 
 # Simulate sending frame data for each player for 9 rounds of bowling
 for round in range(1, 10):
