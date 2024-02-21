@@ -26,9 +26,15 @@ module.exports = function (app) {
     userController.adminBoard
   );
 
+  app.get("/api/auth/history/:userId", userController.history);
+
   app.put(
     "/api/auth/update",
     [authJwt.verifyToken],
     userController.updateProfile
   );
+
+  app.post("/api/auth/upload", [authJwt.verifyToken], userController.upload);
+
+  app.delete("/api/auth/delete/:userId", userController.deleteUser);
 };
